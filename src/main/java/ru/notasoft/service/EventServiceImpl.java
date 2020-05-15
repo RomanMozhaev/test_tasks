@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import ru.notasoft.domain.Classifier;
 import ru.notasoft.domain.Event;
 import ru.notasoft.repository.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +15,8 @@ import java.util.List;
 public class EventServiceImpl implements EventService {
 
     private Repository repository;
+
+    private final static Logger LOG = LoggerFactory.getLogger(EventServiceImpl.class.getName());
 
     public EventServiceImpl(Repository repository) {
         this.repository = repository;
@@ -30,7 +34,8 @@ public class EventServiceImpl implements EventService {
         Event result = new Event();
         try {
             result = this.repository.addEvent(event);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
         }
         return result;
     }
